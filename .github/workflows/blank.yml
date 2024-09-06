@@ -6,12 +6,25 @@ on:
       branches: [ "main" ]
     pull_request:
       branches: [ "main" ]
+    workflow_dispatch:
+      inputs:
+        os:
+          type: string
+          description: 'systeme d exploitation'
+          default: 'ubuntu-latest'
+          required: true
+        surname:
+          type: string
+          description: prenom
+          default: 'John Doe'
+          required: true
+    
 
 jobs:
   # Ce workflow contient un seul job appelé “build”
   build:
-    runs-on: ${{ inputs.os }}
+    runs-on: ${{ inputs.os || 'ubuntu-latest' }}
     steps:
     - uses: actions/checkout@v4
     - name: Run a one-line script
-      run: eho Hello, ${{ inputs.surname }}!
+      run: echo Hello, ${{ inputs.surname || 'John Doe'}}!
